@@ -22,7 +22,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
 
     let decoding_key = match &jwk.algorithm {
-        AlgorithmParameters::RSA(rsa) => DecodingKey::from_rsa_components(&rsa.n, &rsa.e)?,
+        AlgorithmParameters::RSA(rsa) => DecodingKey::from_rsa_raw_components(&rsa.n, &rsa.e),
         _ => unreachable!("algorithm should be a RSA in this example"),
     };
 

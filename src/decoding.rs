@@ -177,7 +177,7 @@ impl DecodingKey {
     pub fn from_jwk(jwk: &Jwk) -> Result<Self> {
         match &jwk.algorithm {
             AlgorithmParameters::RSA(params) => {
-                DecodingKey::from_rsa_components(&params.n, &params.e)
+                Ok(DecodingKey::from_rsa_raw_components(&params.n, &params.e))
             }
             AlgorithmParameters::EllipticCurve(params) => {
                 DecodingKey::from_ec_components(&params.x, &params.y)

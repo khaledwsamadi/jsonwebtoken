@@ -9,6 +9,7 @@ use crate::{
     Algorithm,
 };
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
+use serde_with::base64::{Base64, UrlSafe};
 use std::{fmt, str::FromStr};
 
 /// The intended usage of the public `KeyType`. This enum is serialized `untagged`
@@ -332,6 +333,7 @@ pub enum RSAKeyType {
 }
 
 /// Parameters for a RSA Key
+#[serde_with::serde_as]
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize, Default, Hash)]
 pub struct RSAKeyParameters {
     /// Key type value for a RSA Key
@@ -340,11 +342,13 @@ pub struct RSAKeyParameters {
 
     /// The "n" (modulus) parameter contains the modulus value for the RSA
     /// public key.
-    pub n: String,
+    #[serde_as(as = "Base64<UrlSafe>")]
+    pub n: Vec<u8>,
 
     /// The "e" (exponent) parameter contains the exponent value for the RSA
     /// public key.
-    pub e: String,
+    #[serde_as(as = "Base64<UrlSafe>")]
+    pub e: Vec<u8>,
 }
 
 /// Key type value for an Octet symmetric key.
